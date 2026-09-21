@@ -3,8 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web 3D Viewer - Interactive 3D Model Inspector</title>
+  <title>Web 3D Viewer - Free Online 3D Model Inspector (GLB, GLTF, FBX, OBJ, STL)</title>
   
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Web 3D Viewer - Free Online 3D Model Inspector" />
+  <meta name="description" content="Free, fast browser-based 3D model viewer and inspector. Drag & drop GLB, GLTF (with Draco), FBX, OBJ, and STL files with instant rendering, wireframe mode, animation playback, and mesh statistics." />
+  <meta name="keywords" content="3D viewer, web 3d viewer, online 3d viewer, gltf viewer, glb viewer, fbx viewer, obj viewer, stl viewer, three.js viewer, 3d model inspector, draco decoder" />
+  <meta name="author" content="Web 3D Viewer" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0b0f19" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Web 3D Viewer" />
+  <meta property="og:title" content="Web 3D Viewer - Free Online 3D Model Inspector" />
+  <meta property="og:description" content="Free, fast browser-based 3D model viewer and inspector. Drag & drop GLB, GLTF, FBX, OBJ, and STL files with instant 3D rendering and animation support." />
+  <meta property="og:image" content="./favicon.svg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:title" content="Web 3D Viewer - Free Online 3D Model Inspector" />
+  <meta property="twitter:description" content="Free, fast browser-based 3D model viewer. Drag and drop GLB, GLTF, FBX, OBJ, and STL files with real-time inspection." />
+  <meta property="twitter:image" content="./favicon.svg" />
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Web 3D Viewer",
+      "description": "High-performance browser-based 3D model viewer and inspector supporting GLB, GLTF, FBX, OBJ, and STL formats with animation and mesh statistics.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires WebGL support",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Drag and drop 3D model loading",
+        "Full support for GLB, GLTF (Draco compression), FBX, OBJ (+MTL), and STL",
+        "Real-time animation player with multi-track selection",
+        "Smooth orbit, pan, and zoom camera controls",
+        "Model statistics: polygons, vertices, meshes, and materials",
+        "Wireframe, grid, and studio lighting toggles"
+      ]
+    }
+  </script>
+
   <script type="importmap">
     {
       "imports": {
@@ -17,7 +68,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=1.1.0" />
+  <link rel="stylesheet" href="./style.css?v=1.2.0" />
 </head>
 <body>
   <header class="topbar">
@@ -56,37 +107,43 @@
 
     <div id="toast" class="toast hidden"></div>
 
-    <div id="toolbar" class="toolbar hidden">
+    <div id="toolbar" class="toolbar hidden" role="toolbar" aria-label="3D Viewer Controls">
       <div class="toolbar-group">
-        <button id="resetCamera" title="Reset View">
+        <button id="resetCamera" title="Reset View" aria-label="Reset Camera View">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
           <span>Reset</span>
         </button>
-        <button id="gridToggle" title="Toggle Grid">
+        <button id="gridToggle" title="Toggle Grid" aria-label="Toggle Ground Grid">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
           <span>Grid</span>
         </button>
-        <button id="wireframeToggle" title="Toggle Wireframe">
+        <button id="wireframeToggle" title="Toggle Wireframe" aria-label="Toggle Wireframe Mode">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><line x1="2" y1="7" x2="2" y2="17"/><line x1="12" y1="12" x2="12" y2="22"/><line x1="22" y1="7" x2="22" y2="17"/></svg>
           <span>Wireframe</span>
         </button>
-        <button id="envToggle" title="Toggle Studio Lighting">
+        <button id="envToggle" title="Toggle Studio Lighting" aria-label="Toggle Studio Environment Lighting">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
           <span>Studio Light</span>
         </button>
       </div>
 
       <div id="animControls" class="toolbar-group hidden">
-        <button id="playPauseAnim" title="Play/Pause Animation">
+        <button id="playPauseAnim" title="Play/Pause Animation" aria-label="Play or Pause Animation">
           <svg id="pauseIcon" class="hidden" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
           <svg id="playIcon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
-        <select id="animSelect" class="anim-select" title="Select Animation"></select>
+        <select id="animSelect" class="anim-select" title="Select Animation" aria-label="Select Animation Clip"></select>
       </div>
     </div>
 
-    <div id="modelInfo" class="model-info hidden"></div>
+    <div id="modelInfo" class="model-info hidden" aria-live="polite"></div>
   </main>
+
+  <noscript>
+    <div style="padding: 20px; text-align: center; color: #fff; background: #1e1b4b;">
+      JavaScript is required to run Web 3D Viewer. Please enable JavaScript to inspect GLB, GLTF, FBX, OBJ, and STL 3D models.
+    </div>
+  </noscript>
 
   <script type="module" src="./src/main.js?v=1.2.0"></script>
 </body>
